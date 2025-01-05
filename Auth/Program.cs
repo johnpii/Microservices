@@ -6,6 +6,7 @@ using Auth.Repositories;
 using Auth.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SharedLibrary.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,13 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<LoginConsumer>();
     x.UsingRabbitMq((context, cfg) =>
     {
+        var rabbitMQSettings = builder.Configuration.GetSection("RabbitMQ");
+        cfg.Host(rabbitMQSettings["Host"], c =>
+        {
+            c.Username(rabbitMQSettings["Username"]);
+            c.Password(rabbitMQSettings["Password"]);
+        });
+
         cfg.ReceiveEndpoint("AuthRegistQueue", e =>
         {
             e.ConfigureConsumer<RegistConsumer>(context);

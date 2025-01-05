@@ -26,10 +26,11 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("rabbitmq://localhost", c =>
+        var rabbitMQSettings = builder.Configuration.GetSection("RabbitMQ");
+        cfg.Host(rabbitMQSettings["Host"], c =>
         {
-            c.Username("guest");
-            c.Password("guest");
+            c.Username(rabbitMQSettings["Username"]);
+            c.Password(rabbitMQSettings["Password"]);
         });
 
         cfg.ClearSerialization();
