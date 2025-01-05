@@ -1,0 +1,18 @@
+﻿@model decimal
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Курс рубля (RUB) к доллару (USD)</h1>
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+            Текущий курс
+        </div>
+        <div class="card-body">
+            <h2 class="text-center">
+                @Model.ToString("0.00") &#x20bd
+            </h2>
+        </div>
+        <div class="card-footer bg-light text-muted text-center">
+            Обновлено в @DateTime.Now.ToString("HH:mm:ss dd-MM-yyyy")
+        </div>
+    </div>
+</div>
